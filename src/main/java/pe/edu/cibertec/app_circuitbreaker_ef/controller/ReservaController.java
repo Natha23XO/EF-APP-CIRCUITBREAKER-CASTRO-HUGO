@@ -19,7 +19,7 @@ public class ReservaController {
         return reservaService.registrarReserva(reserva);
     }
 
-    public ResponseEntity<String> errorGenerarReserva(Throwable t){
-        return ResponseEntity.status(503).body("En estos momentos estamos tardando en generar la reserva, porfavor reintente en unos minutos.");
+    public String errorGenerarReserva(Throwable t){
+        return "En estos momentos estamos tardando en generar la reserva, porfavor reintente en unos minutos.";
     }
 }
