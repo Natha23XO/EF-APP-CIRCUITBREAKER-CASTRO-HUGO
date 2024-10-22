@@ -22,7 +22,6 @@ public class ReservaService implements IReservaService {
 
     private final IClienteService clienteService;
 
-    //Se esta colocando una cantidad maxima de personas de manera sencilla solo para el ejemplo de Circuit Breaker
     private int cantidad_maxima = 100;
     private final List<Reserva> reservas = new ArrayList<>();
 

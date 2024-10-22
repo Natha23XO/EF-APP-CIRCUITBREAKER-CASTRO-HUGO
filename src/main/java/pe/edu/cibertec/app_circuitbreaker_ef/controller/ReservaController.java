@@ -10,7 +10,7 @@ import pe.edu.cibertec.app_circuitbreaker_ef.service.impl.ReservaService;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/reserva")
-public class OperacionController {
+public class ReservaController {
     private final ReservaService reservaService;
 
     @PostMapping()
