@@ -2,29 +2,24 @@ package pe.edu.cibertec.app_circuitbreaker_ef.controller;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pe.edu.cibertec.app_circuitbreaker_ef.service.OperacionService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pe.edu.cibertec.app_circuitbreaker_ef.model.Reserva;
+import pe.edu.cibertec.app_circuitbreaker_ef.service.impl.ReservaService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/operacion")
+@RequestMapping("/api/v1/reserva")
 public class OperacionController {
-    private static final Logger logger = LoggerFactory.getLogger(OperacionController.class);
+    private final ReservaService reservaService;
 
-    private final OperacionService operacionService;
-
-    @GetMapping()
-    @CircuitBreaker(name = "myService", fallbackMethod = "fallback")
-    public String metodoRemoto(){
-        return operacionService.metodoRemoto();
+    @PostMapping()
+    @CircuitBreaker(name = "myService", fallbackMethod = "errorGenerarReserva")
+    public String registrarReserva(@RequestBody Reserva reserva){
+        return reservaService.registrarReserva(reserva);
     }
 
-    public String fallback(Throwable t){
-        logger.error("Fallback method called due to: ", t);
-        return "Servicio temporalmente no disponible. Intente más tarde";
+    public ResponseEntity<String> errorGenerarReserva(Throwable t){
+        return ResponseEntity.status(503).body("En estos momentos estamos tardando en generar la reserva, porfavor reintente en unos minutos.");
     }
 }
